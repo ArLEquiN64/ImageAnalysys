@@ -1,8 +1,0 @@
-D:\Data\Projects\ImageAnalysys\ImageAnalyser\bin\Debug\ImageAnalyser.exe.config
-D:\Data\Projects\ImageAnalysys\ImageAnalyser\bin\Debug\ImageAnalyser.exe
-D:\Data\Projects\ImageAnalysys\ImageAnalyser\bin\Debug\ImageAnalyser.pdb
-D:\Data\Projects\ImageAnalysys\ImageAnalyser\obj\Debug\ImageAnalyser.csprojResolveAssemblyReference.cache
-D:\Data\Projects\ImageAnalysys\ImageAnalyser\obj\Debug\ImageAnalyser.exe
-D:\Data\Projects\ImageAnalysys\ImageAnalyser\obj\Debug\ImageAnalyser.pdb
-D:\Data\Projects\ImageAnalysys\ImageAnalyser\obj\Debug\ImageAnalyser.Properties.Resources.resources
-D:\Data\Projects\ImageAnalysys\ImageAnalyser\obj\Debug\ImageAnalyser.csproj.GenerateResource.Cache
