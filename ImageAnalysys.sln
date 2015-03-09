@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageAnalysysGUI", "ImageAnalysysGUI\ImageAnalysysGUI.csproj", "{628A0866-9189-4A69-9F08-6A7F7EEE01E4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{525593E7-66AF-4A2B-BA87-07E8E89AF2FE} = {525593E7-66AF-4A2B-BA87-07E8E89AF2FE}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageAnalyser", "ImageAnalyser\ImageAnalyser.csproj", "{525593E7-66AF-4A2B-BA87-07E8E89AF2FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{628A0866-9189-4A69-9F08-6A7F7EEE01E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{628A0866-9189-4A69-9F08-6A7F7EEE01E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{628A0866-9189-4A69-9F08-6A7F7EEE01E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{628A0866-9189-4A69-9F08-6A7F7EEE01E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{525593E7-66AF-4A2B-BA87-07E8E89AF2FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{525593E7-66AF-4A2B-BA87-07E8E89AF2FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{525593E7-66AF-4A2B-BA87-07E8E89AF2FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{525593E7-66AF-4A2B-BA87-07E8E89AF2FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
