@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GaussianFilter.cs" />
     <Compile Include="IColorFilter.cs" />
     <Compile Include="IGrayscaleFilter.cs" />
     <Compile Include="ImageController.cs" />
