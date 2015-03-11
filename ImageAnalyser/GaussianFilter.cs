@@ -5,24 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ImageAnalyser {
-	internal class GaussianFilter : IFilter<double> {
+	class GaussianFilter:IGrayscaleFilter {
 
-		/// <summary>
-		/// Filter with Gaussian
-		/// </summary>
-		/// <param name="parameter">sigma</param>
-		public double[,] Filter(double[,] inData, params double[] parameter) {
+		public double[,] Filter(double[,] inData, double sigma) {
 			Console.Write("Filtering Gaussian...");
 			int width = inData.GetLength(0);
 			int height = inData.GetLength(1);
-			int r = ((int) (Math.Ceiling(3.0 * parameter[0]) * 2 + 1) - 1) / 2;
+			int r = ((int)(Math.Ceiling(3.0 * sigma) * 2 + 1) - 1) / 2;
 
 			var outData = new double[width, height];
 
 			double[,] tmpX = new double[width, height];
 			double[,] tmpY = new double[width, height];
 
-			double coefficientG = 2 * Math.PI * Math.Pow(parameter[0], 2);
+			double coefficientG = 2 * Math.PI * Math.Pow(sigma, 2);
 
 			double[] convolution = new double[2 * r + 1];
 
@@ -31,7 +27,7 @@ namespace ImageAnalyser {
 			for (int i = 0; i < absRange; i++) {
 				int sub = i - r;
 
-				double gTmp = -1 * ((Math.Pow((sub), 2) / (2 * Math.Pow(parameter[0], 2))));
+				double gTmp = -1 * ((Math.Pow((sub), 2) / (2 * Math.Pow(sigma, 2))));
 				double gauss = (1 / coefficientG) * Math.Pow(Math.E, gTmp);
 
 				convolution[i] = gauss * 2;
@@ -116,6 +112,10 @@ namespace ImageAnalyser {
 
 			Console.WriteLine("succsess");
 			return outData;
+		}
+
+		public double[,] Filter(double[,] inData) {
+			throw new NotImplementedException("missing value sigma.");
 		}
 	}
 }

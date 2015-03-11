@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ImageAnalyser {
-	internal class SIFT {
+	class SIFT {
 
 	}
 }

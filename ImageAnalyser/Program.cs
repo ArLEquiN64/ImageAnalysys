@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ImageAnalyser {
-	internal class Program {
-		private static void Main(string[] args) {
-
+	class Program {
+		static void Main(string[] args) {
+			Console.WriteLine(ImageController.Instance);
 		}
 	}
 }

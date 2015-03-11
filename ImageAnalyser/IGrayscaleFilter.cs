@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ImageAnalyser {
-	internal interface IFilter<T> {
-		T[,] Filter(T[,] inData,params double[] parameter);
+	internal interface IGrayscaleFilter {
+		double[,] Filter(double[,] inData);
 	}
 }

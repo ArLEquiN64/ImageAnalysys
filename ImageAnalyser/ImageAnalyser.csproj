@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="GaussianFilter.cs" />
     <Compile Include="IColorFilter.cs" />
-    <Compile Include="IFilter.cs" />
     <Compile Include="IGrayscaleFilter.cs" />
     <Compile Include="ImageController.cs" />
     <Compile Include="Program.cs" />
