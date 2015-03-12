@@ -85,5 +85,61 @@ namespace ImageAnalyser {
 			Console.WriteLine("succsess");
 			SaveToFile("GrayScale", _grayScaleData);
 		}
+
+        public static ImageMatrix DifferentiationOfColum(ImageMatrix image)
+        {
+            ImageMatrix result = new ImageMatrix(image.colum_length,image.row_length);
+            for (int y = 0; y < image.row_length; y++)
+            {
+                for (int x = 0; x < image.colum_length; x++)
+                {
+                    result.SetElement(x,y,image.GetElement(x - 1, y) - image.GetElement(x + 1, y));
+                }
+            }
+
+            return result;
+        }
+
+        public static double[,] DifferentiationOfColum(double[,] matrix)
+        {
+            ImageMatrix image = new ImageMatrix(matrix);
+            ImageMatrix result = new ImageMatrix(image.colum_length, image.row_length);
+            for (int y = 0; y < image.row_length; y++)
+            {
+                for (int x = 0; x < image.colum_length; x++)
+                {
+                    result.SetElement(x, y, image.GetElement(x - 1, y) - image.GetElement(x + 1, y));
+                }
+            }
+            return result.GetMatrix();
+        }
+
+        public static ImageMatrix DifferentiationOfRow(ImageMatrix image)
+        {
+            ImageMatrix result = new ImageMatrix(image.colum_length, image.row_length);
+            for (int y = 0; y < image.row_length; y++)
+            {
+                for (int x = 0; x < image.colum_length; x++)
+                {
+                    result.SetElement(x, y, image.GetElement(x, y-1) - image.GetElement(x, y+1));
+                }
+            }
+
+            return result;
+        }
+        public static double[,] DifferentiationOfRow(double[,] matrix)
+        {
+            ImageMatrix image = new ImageMatrix(matrix);
+            ImageMatrix result = new ImageMatrix(image.colum_length, image.row_length);
+            for (int y = 0; y < image.row_length; y++)
+            {
+                for (int x = 0; x < image.colum_length; x++)
+                {
+                    result.SetElement(x, y, image.GetElement(x, y - 1) - image.GetElement(x, y + 1));
+                }
+            }
+
+            return result.GetMatrix();
+        }
 	}
 }
