@@ -89,7 +89,7 @@ namespace ImageAnalyser {
 			Console.Write("Makeing Gray Scale...");
 			int width = _originalPixelData.GetLength(0);
 			int height = _originalPixelData.GetLength(1);
-			var _grayScaleData = new double[width, height];
+			_grayScaleData = new double[width, height];
 			for (var y = 0; y < height; y++) {
 				for (var x = 0; x < width; x++) {
 					_grayScaleData[x, y] = (int) (_originalPixelData[x, y].GetBrightness() * 255);
