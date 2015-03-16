@@ -16,6 +16,8 @@ namespace ImageAnalyser
         public ImageMatrix(int colum_length,int row_length)
         {
             matrix = new double[colum_length, row_length];
+            this.colum_length = colum_length;
+            this.row_length = row_length;
         }
 
         public ImageMatrix(double[,] Image)
@@ -56,6 +58,59 @@ namespace ImageAnalyser
                 y = colum_length;
 
             matrix[x, y] = element;
+        }
+
+        public static ImageMatrix operator +(ImageMatrix a, ImageMatrix b)
+        {
+            if (a.row_length != b.row_length || a.colum_length != b.colum_length)
+                return a;
+
+            ImageMatrix result = new ImageMatrix(a.colum_length, a.row_length);
+            for (int y = 0; y < a.row_length; y++)
+            {
+                for (int x = 0; x < a.colum_length; x++)
+                {
+                    result.SetElement(x, y, a.GetElement(x, y) + b.GetElement(x, y));
+                }
+            }
+            return result;
+        }
+
+        public static ImageMatrix operator -(ImageMatrix a, ImageMatrix b)
+        {
+            if (a.row_length != b.row_length || a.colum_length != b.colum_length)
+                return a;
+
+            ImageMatrix result = new ImageMatrix(a.colum_length, a.row_length);
+            for (int y = 0; y < a.row_length; y++)
+            {
+                for (int x = 0; x < a.colum_length; x++)
+                {
+                    result.SetElement(x, y, a.GetElement(x, y) - b.GetElement(x, y));
+                }
+            }
+            return result;
+        }
+
+        public static ImageMatrix operator *(ImageMatrix a, ImageMatrix b)
+        {
+            if (a.colum_length != b.row_length)
+                return a;
+
+            ImageMatrix result = new ImageMatrix(b.colum_length, a.row_length);
+            for (int y = 0; y < b.colum_length; y++)
+            {
+                for (int x = 0; x < a.row_length; x++)
+                {
+                    double temp=0;
+                    for (int i = 0; i < a.colum_length; i++)
+                    {
+                        temp+=a.GetElement(i,y)*b.GetElement(x,i);
+                    }
+                    result.SetElement(x, y, temp);
+                }
+            }
+            return result;
         }
     }
 }
