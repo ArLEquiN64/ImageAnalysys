@@ -57,9 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DownSampling.cs" />
     <Compile Include="GaussianFilter.cs" />
-    <Compile Include="IColorFilter.cs" />
-    <Compile Include="IGrayscaleFilter.cs" />
+    <Compile Include="IFilter.cs" />
     <Compile Include="ImageController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
