@@ -118,9 +118,9 @@ namespace ImageAnalyser {
 							}
 							bool isMax = true;
 							bool isMin = true;
-							for (int ds = s - 1; ds < s + 1; ds++) {
-								for (int dx = x - 1; dx < x + 1; dx++) {
-									for (int dy = y - 1; dy < y + 1; dy++) {
+							for (int ds = s - 1; ds <= s + 1; ds++) {
+								for (int dx = x - 1; dx <= x + 1; dx++) {
+									for (int dy = y - 1; dy <= y + 1; dy++) {
 										if (dx == -1 || dy == -1 || dx >= w || dy >= h || (ds == s && dx == x && dy == y)) {
 											continue;
 										}
