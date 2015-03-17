@@ -99,7 +99,7 @@ namespace ImageAnalyser {
 			SaveToFile("GrayScale", _grayScaleData);
 		}
 
-        public static ImageMatrix DifferentiationOfColum(ImageMatrix image)
+        public static ImageMatrix DiffColum(ImageMatrix image)
         {
             ImageMatrix result = new ImageMatrix(image.colum_length,image.row_length);
             for (int y = 0; y < image.row_length; y++)
@@ -113,7 +113,7 @@ namespace ImageAnalyser {
             return result;
         }
 
-        public static double[,] DifferentiationOfColum(double[,] matrix)
+        public static double[,] DiffColum(double[,] matrix)
         {
             ImageMatrix image = new ImageMatrix(matrix);
             ImageMatrix result = new ImageMatrix(image.colum_length, image.row_length);
@@ -127,7 +127,7 @@ namespace ImageAnalyser {
             return result.GetMatrix();
         }
 
-        public static ImageMatrix DifferentiationOfRow(ImageMatrix image)
+        public static ImageMatrix DiffRow(ImageMatrix image)
         {
             ImageMatrix result = new ImageMatrix(image.colum_length, image.row_length);
             for (int y = 0; y < image.row_length; y++)
@@ -140,7 +140,7 @@ namespace ImageAnalyser {
 
             return result;
         }
-        public static double[,] DifferentiationOfRow(double[,] matrix)
+        public static double[,] DiffRow(double[,] matrix)
         {
             ImageMatrix image = new ImageMatrix(matrix);
             ImageMatrix result = new ImageMatrix(image.colum_length, image.row_length);

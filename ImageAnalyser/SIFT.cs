@@ -164,13 +164,11 @@ namespace ImageAnalyser {
         public void LocalizePrincipalCurvatures(ImageMatrix inData, double gamma)
         {
             ImageMatrix TrH =
-                ImageController.DifferentiationOfColum(ImageController.DifferentiationOfColum(inData)) +
-                ImageController.DifferentiationOfRow(ImageController.DifferentiationOfRow(inData));
+                ImageController.DiffColum(ImageController.DiffColum(inData)) +
+                ImageController.DiffRow(ImageController.DiffRow(inData));
             ImageMatrix DetH =
-                (ImageController.DifferentiationOfColum(ImageController.DifferentiationOfColum(inData)) *
-                ImageController.DifferentiationOfRow(ImageController.DifferentiationOfRow(inData))) -
-                (ImageController.DifferentiationOfColum(ImageController.DifferentiationOfRow(inData)) *
-                ImageController.DifferentiationOfColum(ImageController.DifferentiationOfRow(inData)));
+                (ImageController.DiffColum(ImageController.DiffColum(inData)) * ImageController.DiffRow(ImageController.DiffRow(inData))) -
+                (ImageController.DiffColum(ImageController.DiffRow(inData)) * ImageController.DiffColum(ImageController.DiffRow(inData)));
 
             for (int y = 0; y < TrH.row_length; y++)
             {
@@ -181,6 +179,24 @@ namespace ImageAnalyser {
                         keypoints.Remove(new KeyPoint(x,y,octave,scale));
                 }
             }
+
+            MyEach(3, 2, (i, j) =>
+            {
+                // here code
+            });
         }
+
+        delegate void del(int i,int j);
+        public void MyEach(int m, int n, del Callback)
+        {
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    Callback(i, j);
+                }
+            }
+        }
+
 	}
 }
