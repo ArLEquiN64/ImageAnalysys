@@ -36,9 +36,8 @@ namespace ImageAnalyser {
 
 		public SIFT(ImageController ic) {
 			this.ic = ic;
-			width = ic.GrayScaleData.GetLength(0);
-			height = ic.GrayScaleData.GetLength(1);
-
+			width = ic.Width;
+			height = ic.Height;
 			int W = (width < height) ? width : height;
 			for (octave = 0; W > minWidth; octave++, W /= 2) {
 			}
@@ -148,25 +147,50 @@ namespace ImageAnalyser {
 			}
 			Console.WriteLine("    Succsess searching KeyPoints from DoG\n" +
 			                  "    -----------------------------------------------");
-			Console.WriteLine("Step 1 Complete!!\n"
-			                  + "now keypoints is " + keypoints.Count() + " point");
+			Console.WriteLine("Step 1 Complete!!\n");
+			Console.WriteLine("now keypoints is " + keypoints.Count() + " point");
 		}
 
 		private void LocalizeKeyPoints() {
 			Console.WriteLine("Step 2 : keypoints localization");
 			Console.WriteLine("    -----------------------------------------------\n" +
 			                  "    Start localize with principal curvature");
+			List<KeyPoint> remobeKeys = new List<KeyPoint>();
+			foreach (var keypoint in keypoints) {
+				int o = keypoint.Octave;
+				int s = keypoint.Scale;
+				int x = keypoint.X;
+				int y = keypoint.Y;
 
+				if (x < 2 || y < 2 || x >= DoG[o][s].GetLength(0) - 2 || y >= DoG[o][s].GetLength(1) - 2) {
+					continue;
+				}
+
+				double Dxx = (DoG[o][s][x - 2, y] + DoG[o][s][x + 2, y] - 2 * DoG[o][s][x, y]);
+				double Dyy = (DoG[o][s][x, y - 2] + DoG[o][s][x, y + 2] - 2 * DoG[o][s][x, y]);
+				double Dxy = (DoG[o][s][x - 1, y - 1] - DoG[o][s][x - 1, y + 1] - DoG[o][s][x + 1, y - 1] + DoG[o][s][x + 1, y + 1]);
+
+				double trc = Dxx + Dyy;
+				double det = Dxx * Dyy - Dxy * Dxy;
+
+				if (trc * trc / det >= principalCurvatureThreshold) {
+					remobeKeys.Add(keypoint);
+				}
+			}
+			foreach (var remobeKey in remobeKeys) {
+				keypoints.Remove(remobeKey);
+			}
 			Console.WriteLine("    Succsess localize with principal curvature\n" +
 			                  "    -----------------------------------------------");
+			Console.WriteLine("now keypoints is " + keypoints.Count() + " point");
 
 			Console.WriteLine("    -----------------------------------------------\n" +
 			                  "    Start localize with contrast");
-			double[,] mD = new double[3, 3]; //導関数行列
-			double[,] iD = new double[3, 3]; //の逆行列用
-			double[] xD = new double[3]; //キーポイント位置
-			double[] X = new double[3]; //サブピクセル位置
-			List<KeyPoint> remobeKeys=new List<KeyPoint>();
+			double[,] mD = new double[3, 3];
+			double[,] iD = new double[3, 3];
+			double[] xD = new double[3];
+			double[] X = new double[3];
+			remobeKeys = new List<KeyPoint>();
 			foreach (var key in keypoints) {
 				int o = key.Octave;
 				int s = key.Scale;
@@ -182,20 +206,16 @@ namespace ImageAnalyser {
 					continue;
 				}
 
-				//サブピクセル推定
 				double Dx = (DoG[o][s][x - 1, y] - DoG[o][s][x + 1, y]);
 				double Dy = (DoG[o][s][x, y - 1] - DoG[o][s][x, y + 1]);
 				double Dxx = (DoG[o][s][x - 2, y] + DoG[o][s][x + 2, y] - 2 * DoG[o][s][x, y]);
 				double Dyy = (DoG[o][s][x, y - 2] + DoG[o][s][x, y + 2] - 2 * DoG[o][s][x, y]);
-				double Dxy = (DoG[o][s][x - 1, y - 1] - DoG[o][s][x - 1, y + 1]
-				              - DoG[o][s][x + 1, y - 1] + DoG[o][s][x + 1, y + 1]);
-				double Ds = (DoG[o][sm1][x, y] - DoG[o][sp1][x, y]);
+				double Dxy = (DoG[o][s][x - 1, y - 1] - DoG[o][s][x - 1, y + 1] - DoG[o][s][x + 1, y - 1] + DoG[o][s][x + 1, y + 1]);
 
+				double Ds = (DoG[o][sm1][x, y] - DoG[o][sp1][x, y]);
 				double Dss = (DoG[o][sm2][x, y] - DoG[o][sp2][x, y] + 2 * DoG[o][s][x, y]);
-				double Dxs = (DoG[o][sm1][x - 1, y] - DoG[o][sm1][x + 1, y]
-				              + DoG[o][sp1][x - 1, y] - DoG[o][sp1][x + 1, y]);
-				double Dys = (DoG[o][sm1][x, y - 1] - DoG[o][sm1][x, y + 1]
-				              + DoG[o][sp1][x, y - 1] - DoG[o][sp1][x, y + 1]);
+				double Dxs = (DoG[o][sm1][x - 1, y] - DoG[o][sm1][x + 1, y] + DoG[o][sp1][x - 1, y] - DoG[o][sp1][x + 1, y]);
+				double Dys = (DoG[o][sm1][x, y - 1] - DoG[o][sm1][x, y + 1] + DoG[o][sp1][x, y - 1] - DoG[o][sp1][x, y + 1]);
 
 				mD[0, 0] = Dxx;
 				mD[0, 1] = Dxy;
@@ -211,23 +231,18 @@ namespace ImageAnalyser {
 				xD[1] = -Dy;
 				xD[2] = -Ds;
 
-				//逆行列計算(mDの逆行列をiDに)
 				iD = calcMatrixInverth(mD);
 
-				//サブピクセル位置(行列の積)
 				X[0] = iD[0, 0] * xD[0] + iD[0, 1] * xD[1] + iD[0, 2] * xD[2];
 				X[1] = iD[1, 0] * xD[0] + iD[1, 1] * xD[1] + iD[1, 2] * xD[2];
 				X[2] = iD[2, 0] * xD[0] + iD[2, 1] * xD[1] + iD[2, 2] * xD[2];
 
-				//サブピクセル位置での出力(式21)
 				double Dpow = Math.Abs(DoG[o][s][x, y] + (xD[0] * X[0] + xD[1] * X[1] + xD[2] * X[2]) / 2);
 
-				//閾値処理
 				if (Dpow < contrastThreshold + 127) {
 					remobeKeys.Add(key);
 				}
 			}
-
 			foreach (var remobeKey in remobeKeys) {
 				keypoints.Remove(remobeKey);
 			}
@@ -249,24 +264,19 @@ namespace ImageAnalyser {
 		private double[,] calcMatrixInverth(double[,] mat) {
 			int i, j, k;
 			double buf;
-			double[,] inv=new double[3,3];
-
-			//初期化
+			double[,] inv = new double[3, 3];
 			for (i = 0; i < 3; i++) {
 				for (j = 0; j < 3; j++) {
 					inv[i, j] = 0;
 				}
 				inv[i, i] = 1;
 			}
-
-			//掃き出し法
 			for (i = 0; i < 3; i++) {
 				buf = 1 / mat[i, i];
 				for (j = 0; j < 3; j++) {
 					mat[i, j] *= buf;
 					inv[i, j] *= buf;
 				}
-
 				for (j = 0; j < 3; j++) {
 					if (i != j) {
 						buf = mat[j, i];

@@ -9,8 +9,8 @@ namespace ImageAnalyser {
 
 		/// <summary>
 		/// Filter with Gaussian
-		/// </summary>
 		/// <param name="parameter">sigma</param>
+		/// </summary>
 		public double[,] Filter(double[,] inData, params double[] parameter) {
 			Console.Write("Filtering Gaussian...");
 			int width = inData.GetLength(0);
